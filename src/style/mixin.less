@@ -1,0 +1,18 @@
+.w(@px){
+  width:unit(@px/37.5,rem);
+  // unit 给参数一添加参数2的单位  unit(1,px) = 1px   unit(1,rem)=1rem
+}
+
+.h(@px){
+  height:unit(@px/37.5,rem);
+}
+.fs(@px){
+  font-size: unit(@px/37.5,rem);
+}
+.fixed(@top,@left,@bottom,@right){
+  position: fixed;
+  top:@top;
+  bottom: @bottom;
+  left: @left;
+  right: @right;
+}

@@ -1,23 +1,51 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+// 引入三个要跳转的页面组件
+import Movies from "../views/Movies/Movies.vue"
+import Cinema from "../views/Cinema/Cinema.vue"
+import Mine from "../views/Mine/Mine.vue"
+
+// 引入跳转到正在热映的组件
+import myShowing from "../views/Movies/components/my-showing.vue";
+import myTobeshow from "../views/Movies/components/my-tobeshow.vue";
+// import myShowbtn from "../views/Movies/components/my-showbtn.vue";
+
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home
+    path: '/movie',
+    component: Movies,
+    children: [
+      {
+        path: 'tobeshow',
+        component: myTobeshow
+      },
+      // {
+      //     path: '/movies',
+      //     component: Movies
+      //   },
+
+    ]
+
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/cinema',
+    component: Cinema
+  },
+  {
+    path: '/mine',
+    component: Mine
+  },
+  {
+   path:'/',
+   component:Movies
+    
+  },
+
+
 ]
 
 const router = new VueRouter({

@@ -1,32 +1,21 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <!-- 底部的tab -->
+    <my-footer></my-footer>
+    <!-- 路由组件 一定套 记得 不然无法显示 -->
+    <router-view></router-view>
   </div>
 </template>
-
+<script>
+import myFooter from "./components/my-footer.vue";
+export default {
+  components: { myFooter }
+};
+</script>
 <style lang="less">
+@import "./style/index.less";
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  background: #ccc;
 }
 </style>
