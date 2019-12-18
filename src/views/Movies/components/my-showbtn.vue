@@ -11,15 +11,15 @@
   </div>
 </template>
 <script>
-// import myShowing from "./my-showing";
+import myShowing from "./my-showing";
 import myTobeshow from "./my-tobeshow";
 export default {
   components: { myTobeshow },
   data() {
     return {
       tab: [
-        { name: "正在热映", path: "/movie" },
-        { name: "即将上映", path: "/movie/tobeshow" }
+        { name: "正在热映", path: "/movie/showing" },
+        { name: "即将上映", path: "/movie/tobeshow"}
       ]
     };
   }

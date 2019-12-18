@@ -11,6 +11,10 @@ import myShowing from "../views/Movies/components/my-showing.vue";
 import myTobeshow from "../views/Movies/components/my-tobeshow.vue";
 // import myShowbtn from "../views/Movies/components/my-showbtn.vue";
 
+// 
+import meituanLogin from "../views/Mine/components/meutuan-login.vue"
+import phoneLogin from "../views/Mine/components/phone-login.vue"
+
 
 Vue.use(VueRouter)
 
@@ -23,10 +27,15 @@ const routes = [
         path: 'tobeshow',
         component: myTobeshow
       },
-      // {
-      //     path: '/movies',
-      //     component: Movies
-      //   },
+      {
+        path: 'showing',
+        component: myShowing
+      },
+      {
+        path: '/',
+        redirect: '/movie/showing'
+
+      },
 
     ]
 
@@ -37,13 +46,24 @@ const routes = [
   },
   {
     path: '/mine',
-    component: Mine
+    component: Mine,
+    children: [
+      {
+        path: 'meituanlogin',
+        component: meituanLogin
+      },
+      {
+        path: 'phonelogin',
+        component: phoneLogin
+      },
+      {
+        path: '/mine',
+        redirect: '/mine/meituanlogin'
+
+      },
+    ]
   },
-  {
-   path:'/',
-   component:Movies
-    
-  },
+
 
 
 ]

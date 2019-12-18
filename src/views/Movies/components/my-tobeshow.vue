@@ -18,38 +18,43 @@
             </li>
           </div>
         </div>
-      </div>
 
-      <!-- tobe show list -->
-      <div class="tobeList">
-        <li v-for="(item,index) in movieList" :key="index">
-          <div class="min-box">
-            <div class="left-img">
-              <img :src="item.img" alt />
-            </div>
-            <div class="right-txt">
-              <div class="movie-msg">
-                <div class="tit">
-                  <div class="movie-name">{{item.nm}}</div>
-                </div>
-                <div class="detail">
-                  <div class="score line-ellipsis">
-                    <span>观众评</span>
-                    <span class="sc">{{item.sc}}</span>
+        <!-- tobe show list -->
+        <div class="tobeList">
+          <div class="wrapper">
+            <div class="content">
+              <li v-for="(item,index) in movieTobeshowList" :key="index">
+                <span class="dates">{{item.comingTitle}}</span>
+                <div class="min-box">
+                  <div class="left-img">
+                    <img :src="item.img" alt />
                   </div>
-                  <div class="actor line-ellipsis">主演:{{item.star}}</div>
-                  <div class="show-info line-ellipsis">{{item.showInfo}}</div>
+                  <div class="right-txt">
+                    <div class="movie-msg">
+                      <div class="tit">
+                        <div class="movie-name">{{item.nm}}</div>
+                      </div>
+                      <div class="detail">
+                        <div class="score line-ellipsis">
+                          <span>{{item.wish}}</span>
+                          <span class="sc">人想看</span>
+                        </div>
+                        <div class="actor line-ellipsis">主演:{{item.star}}</div>
+                        <div class="show-info line-ellipsis">{{item.showInfo}}</div>
+                      </div>
+                    </div>
+                    <!-- 购票按钮 -->
+                    <div class="shop-btn">
+                      <div class="shop-button">
+                        <span>购票</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <!-- 购票按钮 -->
-              <div class="shop-btn">
-                <div class="shop-button">
-                  <span>购票</span>
-                </div>
-              </div>
+              </li>
             </div>
           </div>
-        </li>
+        </div>
       </div>
     </div>
   </div>
@@ -105,6 +110,9 @@ export default {
 <style lang="less" scoped>
 @import "../../../style/index.less";
 .my-tobeshow {
+  li {
+    list-style: none;
+  }
   .w(375);
   .fixed(158.5px, 0, 0, 0);
   background: #fff;
@@ -112,6 +120,7 @@ export default {
   .wrapper {
     position: absolute;
     width: 100%;
+    overflow-y: scroll;
     // height: 216px;
     // overflow: hidden;
     .content {
@@ -136,7 +145,7 @@ export default {
           white-space: nowrap;
           .w(346);
           height: 160px;
-          background: yellow;
+          // background: yellow;
           ::-webkit-scrollbar {
             display: none;
           }
@@ -184,10 +193,13 @@ export default {
         }
       }
       .tobeList {
+        height: 222px;
+
+        // overflow-y: scroll;
         li {
           //
-          list-style: none;
-          height: 114px;
+          // list-style: none;
+          height: 155px;
           padding-left: 15px;
           // background-color: yellow;
           .min-box {
