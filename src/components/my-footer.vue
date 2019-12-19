@@ -31,9 +31,9 @@ export default {
   .w(375);
   height: 48px;
   overflow: hidden;
-  z-index: 999;
+  // z-index: 9;
   //   overflow: hidden;
-  // background: #fff;
+  background: #fff;
   position: fixed;
   bottom: 0;
   width: 100%;

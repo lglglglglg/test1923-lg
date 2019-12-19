@@ -90,7 +90,7 @@ export default {
   left: 0;
   // list
   .wrapper {
-    height: 571.7px;
+    height: 460px;
     overflow: hidden;
     .content {
       .movie-list {

@@ -1,7 +1,7 @@
 <template>
   <div class="mine">
     <div class="top">
-      <div class="back">back</div>
+      <div class="back" @click="jump">back</div>
       <h1>猫眼电影</h1>
     </div>
     <!-- <div class="mine-btn"> -->
@@ -15,6 +15,11 @@ import mineBtn from "./components/mine-btn.vue";
 export default {
   components: {
     mineBtn
+  },
+  methods:{
+    jump(){
+         this.$router.push('/cinema');
+    }
   }
 };
 </script>

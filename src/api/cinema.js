@@ -16,3 +16,22 @@ export const getCinemaList = () => {
             })
     })
 }
+// 获取影院的详情数据
+export const getCinemaDetailList = (cinemaId ='107') => {
+    return new Promise((resolve, reject) => {
+        // http://m.maoyan.com/ajax/cinemaDetail?cinemaId=26195&optimus_uuid=FEC29890F3EF11E9BD0C0DBC46FFCEF19842C84A1DA74AC7B8D59A10357AB56C&optimus_risk_level=71&optimus_code=10
+
+        // http://m.maoyan.com/ajax/cinemaDetail?cinemaId=107&optimus_uuid=FEC29890F3EF11E9BD0C0DBC46FFCEF19842C84A1DA74AC7B8D59A10357AB56C&optimus_risk_level=71&optimus_code=10
+
+        let url = `/hehe/ajax/cinemaDetail?cinemaId=${cinemaId}&optimus_uuid=FEC29890F3EF11E9BD0C0DBC46FFCEF19842C84A1DA74AC7B8D59A10357AB56C&optimus_risk_level=71&optimus_code=10`
+        axios.get(url)
+            .then((data) => {
+                resolve(data)
+                // console.log(data)
+            })
+            .catch((err) => {
+                reject(err)
+                console.log(err)
+            })
+    })
+}

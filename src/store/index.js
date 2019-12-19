@@ -5,11 +5,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    movieList: []
+    movieList: [],
+    moviesList:[],
+
   },
   mutations: {
-    
-
-},
+    addgetCinemaDetailList(state,moviearr){
+      state.moviesList=moviearr
  
+    }
+
+  },
+
 })

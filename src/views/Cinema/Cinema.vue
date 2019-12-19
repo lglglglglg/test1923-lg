@@ -23,10 +23,11 @@
         </div>
       </div>
     </div>
+    <router-view></router-view>
     <!-- 一个大wrapper  movie list-->
     <div class="wrapper">
       <div class="content">
-        <div class="it-list" v-for="(item,index) in CinemaList" :key="index">
+        <div class="it-list" v-for="(item,index) in CinemaList" :key="index" @click="jump(item.id)">
           <!-- 具体的小盒子 -->
           <div class="it-box">
             <div class="title line-ellipsis">
@@ -67,6 +68,7 @@ import mySearch from "../Movies/components/my-search.vue";
 import myCity from "../../components/my-city.vue";
 // 引入 获取影院方法
 import { getCinemaList } from "../../api/cinema.js";
+
 import BS from "better-scroll";
 export default {
   components: { myCity, mySearch },
@@ -78,16 +80,24 @@ export default {
   methods: {
     initBs() {
       this.bs = new BS(".wrapper", { probeType: 3, click: true });
+    },
+    // 点击跳转到影院详情页
+    jump(id) {
+      console.log(id);
+      this.$router.push(`/cinema/${id}`);
+      console.log("我打算调到详情页");
     }
   },
   created() {
     getCinemaList().then(res => {
-      console.log(res);
+      // console.log(res);
       let list = res.cinemas;
       this.CinemaList = list;
-      console.log(this.CinemaList);
+      // console.log(this.CinemaList);
       this.initBs();
     });
+    // 影院详情
+   
   }
 };
 </script>
@@ -166,7 +176,7 @@ export default {
   // wrapper
   .wrapper {
     .w(361);
-    height: 520px;
+    height: 495px;
     margin-top: 75px;
     overflow-y: scroll;
     .content {

@@ -42,6 +42,7 @@ export default {
   padding-right: 0.2rem;
   position: relative;
   border-bottom: 0.08rem solid #d6d6d6;
+  background: #fff;
   li {
     list-style: none;
     display: block;

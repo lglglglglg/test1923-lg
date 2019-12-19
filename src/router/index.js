@@ -15,6 +15,8 @@ import myTobeshow from "../views/Movies/components/my-tobeshow.vue";
 import meituanLogin from "../views/Mine/components/meutuan-login.vue"
 import phoneLogin from "../views/Mine/components/phone-login.vue"
 
+// 引入电影详情组件
+import cinemaDetail from "../views/Detail/cinema-detail.vue"
 
 Vue.use(VueRouter)
 
@@ -42,7 +44,13 @@ const routes = [
   },
   {
     path: '/cinema',
-    component: Cinema
+    component: Cinema,
+    children: [
+      {
+        path: ':id',
+        component: cinemaDetail
+      }
+    ]
   },
   {
     path: '/mine',
@@ -59,6 +67,11 @@ const routes = [
       {
         path: '/mine',
         redirect: '/mine/meituanlogin'
+
+      },
+      {
+        path: '/back',
+        redirect: Cinema
 
       },
     ]
