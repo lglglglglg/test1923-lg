@@ -35,6 +35,58 @@
         </div>
       </div>
     </div>
+    <!-- 场次 时间  -->
+    <div class="my-moviedate">
+      <!-- <div class="cont-wrap"> -->
+      <div class="topdate">
+        <ul>
+          <li v-for="(item,index) in DateList" :key="index" active-class="sel">{{item.dateShow}}</li>
+        </ul>
+      </div>
+      <!-- 该天的上映场次 -->
+      <div class="vip-tips">
+        <ul class="texts">
+          <li class="label">折扣卡</li>
+          <li class="label-text line-ellipsis">现在开卡，首单2张最高立减6元</li>
+          <li class="process">20元起开卡</li>
+        </ul>
+      </div>
+      <div class="showTime">
+        <ul>
+          <li v-for="(item,index) in ShowLists" :key="index">
+            <!-- 开始结束时间 -->
+            <div class="time-block">
+              <div class="begin">{{item.tm}}</div>
+              <div class="end">
+                <span>{{}}</span>散场
+              </div>
+            </div>
+            <!-- 国语2D -->
+            <div class="info-block">
+              <div class="lan">{{item.lang}}</div>
+              <div class="hall">{{item.th}}</div>
+            </div>
+            <!-- 折扣 -->
+            <div class="price">
+              <div class="sellPr">
+                ￥
+                <span>{{Number(item.vipPrice)+5}}</span>
+              </div>
+              <div class="vipPrice">
+                <span class="icon">{{item.vipPriceName}}</span>
+                <span class="num">￥{{item.vipPrice}}</span>
+              </div>
+              <div class="extraDesc">{{item.extraDesc}}</div>
+            </div>
+            <!-- 购票按钮 -->
+            <div class="button-block">
+              <div class="button">购票</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -48,37 +100,104 @@ export default {
       cinemamsg: [],
       movies: [],
       //   每个电影的详细信息
-      detaiList: ""
+      detaiList: "",
+      DateList: [], //场次时间数组
+      ShowLists: []
+      // endTm: ""
     };
   },
   methods: {
     ...mapMutations(["addgetCinemaDetailList"]),
     jumpimg(id) {
       let imgid = id;
+      // let endTm=""
       //   console.log("当前id", id);
       console.log("我现在点击了图片");
       //   console.log(this.movies);
+
       this.movies.map((item, index) => {
         // console.log(item.id);
         if (imgid == item.id) {
-          //   console.log(item);
+          console.log(item);
           this.detaiList = item;
+
+          let DateList = item.shows;
+          // 获取影片总时长
+          let movietm = item.dur;
+          console.log("影片总时长", movietm);
+          let mohour = parseInt(movietm / 60);
+          let momiunte = movietm - 60 * mohour;
+          console.log(mohour); //小时
+          console.log(momiunte); //分钟
+
+          console.log(DateList);
+          // console.log(DateList[0].dateShow);
+          this.DateList = DateList;
+
+          console.log("上映日期", this.DateList);
           //   console.log(this.detaiList);
+
+          // 获取场次
+          DateList.map((item, index) => {
+            //  let showList=item[0]
+            //  console.log(showList)
+            console.log(item);
+          });
+          let s3 = DateList[0].plist;
+
+          console.log(s3);
+
+          //   // 获取开始时间
+          let begintm = s3[0].tm;
+          console.log(s3[0].tm);
+          console.log(begintm.split(":"));
+          let s4 = begintm.split(":");
+          let beginhour = s4[0];
+          let beginmin = s4[1];
+          console.log(beginhour, beginmin);
+          // 针对endtime操作
+          console.log(mohour); //小时
+          console.log(momiunte); //分钟
+          let endTimehour = Number(mohour) + Number(beginhour);
+          let endTimemin = Number(momiunte) + Number(beginmin);
+          let endtm = "";
+          let tm1=""
+          let tm2=""
+          if (endTimemin >= 60) {
+            let tm1 = endTimehour + 1;
+            let tm2 = endTimemin - 60;
+            // console.log(tm1, tm2);
+            // endtm = tm1 + ":" + tm2;
+
+            // console.log(endtm); //这是电影的结束时间
+          }
+          if (endTimehour >= 24) {
+            let tm1 = endTimehour - 24;
+            // let tm2 = endTimemin;
+            // endtm = tm1 + ":" + tm2;
+          }
+          endtm = tm1 + ":" + tm2;
+          console.log(endtm)
+
+          this.ShowLists = s3;
         }
       });
+      //  this.endTm = endtm;
     }
   },
+  // 获取时间
+  time() {},
   created() {
     // 获取影院详情数据
-      let { id } = this.$route.params;
+    let { id } = this.$route.params;
     getCinemaDetailList(id).then(res => {
-      console.log(res);
+      // console.log(res);
       let cinemamsg = res.cinemaData;
       this.cinemamsg = cinemamsg;
-      console.log(this.cinemamsg)
+      // console.log(this.cinemamsg)
       //   获取movie
       let movies = res.showData.movies;
-      console.log(movies);
+      // console.log(movies);
       movies.map((item, index) => {
         item.img = item.img.replace(/http/, "https").replace(/w.h/, "128.180");
         return movies;
@@ -86,8 +205,9 @@ export default {
       });
       this.movies = movies;
       this.addgetCinemaDetailList(movies);
-      console.log(this.$store)
+      // console.log(this.$store)
       this.detaiList = movies[0];
+      // this.ShowList = s1;
 
       //   return this.movies
     });
@@ -99,9 +219,11 @@ export default {
 @import "~style/index.less";
 .my-cinemawrap {
   .w(375);
-  height: 275px;
+  height: 675px;
+
   //   background: yellowgreen;
   .body-wrapper {
+    // overflow-y: scroll;
     .tit-info {
       position: relative;
       padding: 15px;
@@ -205,6 +327,196 @@ export default {
           line-height: 18.5px;
           font-size: 13px;
           color: #999;
+        }
+      }
+    }
+  }
+  .my-moviedate {
+    .w(375);
+    // .h(183);
+    min-height: 183px;
+    background: #ffb400;
+    .topdate {
+      .w(375);
+      .h(45);
+      ul {
+        li {
+          display: inline-block;
+          line-height: 45px;
+          height: 45px;
+          text-align: center;
+          font-size: 14px;
+          color: #666;
+          margin-left: 15px;
+          // span{
+
+          // }
+        }
+      }
+    }
+    .vip-tips {
+      padding: 0 15px;
+      height: 42px;
+      line-height: 42px;
+      font-size: 10px;
+      .texts {
+        display: flex;
+        justify-content: space-around;
+        color: #777;
+        .label {
+          flex: 0 0 auto;
+          display: inline-block;
+          background-color: #60b8e1;
+          border-radius: 2px;
+          font-size: 10px;
+          line-height: 15px;
+          height: 15px;
+          width: 34px;
+          text-align: center;
+          color: #fff;
+          margin-top: 13px;
+          margin-right: 10px;
+        }
+        .label-text {
+          // -webkit-box-flex: 1;
+          // -ms-flex: 1 1 auto;
+          // flex: 1 1 auto;
+          display: inline-block;
+          font-size: 12px;
+          color: #fa9600;
+        }
+        .process {
+          display: inline-block;
+
+          // -webkit-box-flex: 0;
+          // -ms-flex: 0 0 auto;
+          // flex: 0 0 auto;
+          line-height: 42px;
+          color: #999;
+          font-size: 12px;
+        }
+      }
+    }
+    .showTime {
+      .w(375);
+      background: yellow;
+
+      li {
+        .w(350);
+        // margin-left: 2px;
+        // margin-right: 2px;
+        .h(42);
+        display: flex;
+        justify-content: space-around;
+        // background: green;
+        .time-block {
+          .w(54);
+          position: relative;
+          margin-left: 14px;
+          .begin {
+            font-size: 20px;
+            color: #333;
+            line-height: 1;
+            white-space: nowrap;
+          }
+          .end {
+            margin-top: 10px;
+            color: #999;
+            font-size: 11px;
+            line-height: 1;
+            white-space: nowrap;
+          }
+        }
+        .info-block {
+          margin-left: 17px;
+          -webkit-box-flex: 1;
+          -ms-flex: 1;
+          flex: 1;
+          overflow-x: hidden;
+          .lan {
+            margin-top: 2px;
+            line-height: 18px;
+            font-size: 13px;
+            color: #333;
+            white-space: normal;
+          }
+          .hall {
+            margin-top: 7px;
+            font-size: 11px;
+            color: #999;
+            white-space: normal;
+          }
+        }
+        .price {
+          -webkit-box-flex: 0;
+          -ms-flex: 0 1 auto;
+          flex: 0 1 auto;
+          width: 130px;
+          margin-left: 5px;
+          display: flex;
+          position: relative;
+          .sellPr {
+            display: inline-block;
+            // line-height: 1;
+            color: #f03d37;
+            margin-top: 1px;
+            font-size: 11px;
+            span {
+              font-size: 19px;
+            }
+          }
+          .vipPrice {
+            display: inline-block;
+            line-height: 15px;
+            height: 15px;
+            margin-top: 7px;
+            margin-left: -7px;
+
+            -webkit-transform: scale(0.8);
+            // transform: scale(0.8);
+            // -webkit-transform-origin: left;
+            // transform-origin: left;
+            margin-right: -16px;
+            border: 1px solid #ff9000;
+            border-radius: 2px;
+            font-size: 12px;
+            .icon,
+            .num {
+              display: inline-block;
+              padding: 0 2px;
+              color: #fff;
+              background-color: #f90;
+            }
+          }
+          .extraDesc {
+            margin-top: 5px;
+            display: block;
+            font-size: 11px;
+            color: #999;
+            position: absolute;
+            bottom: 0;
+            left: 3px;
+          }
+        }
+        .button-block {
+          width: 45px;
+          margin-left: 2px;
+          position: relative;
+          .button {
+            list-style: none;
+            position: absolute;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            width: 100%;
+            height: 28px;
+            line-height: 28px;
+            font-size: 12px;
+            background-color: #f03d37;
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+          }
         }
       }
     }

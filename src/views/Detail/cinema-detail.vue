@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-detail">
+  <div class="cinema-detail">
     <div class="ttop">
       <div class="back" @click="back">back</div>
       <h1>{{cinematit}}</h1>
@@ -22,9 +22,20 @@
       <!-- </div> -->
 
       <!-- 时间 场次 组件 -->
-      <my-moviedate></my-moviedate>
+      <!-- <div class="my-moviedate">
+        <div class="cont-wrap">
+          <div class="topDate">
+            <ul>
+              <li v-for="(item,index) in dateList" :key="index" active-class="sel">123</li>
+            </ul>
+          </div>
+          <div class="showTime"></div>
+        </div>
+      </div>-->
+
+      <!-- <my-moviedate></my-moviedate> -->
       <!-- snack shop 小吃-->
-      <div class="snac-wrap"></div>
+      <my-snack></my-snack>
     </div>
   </div>
 </template>
@@ -35,13 +46,18 @@ import { getCinemaDetailList } from "../../api/cinema.js";
 // 引用 该影院要放的电影的组件
 import myCinemawrap from "./cinemaDetails/my-cinemawrap.vue";
 // 引用 场次时间 的组件
-import myMoviedate from "./cinemaDetails/my-moviedate.vue";
+// import myMoviedate from "./cinemaDetails/my-moviedate.vue";
+
+// 引用小吃组件
+import mySnack from "./cinemaDetails/my-snack.vue";
+
 export default {
   // 注册组件
-  components: { myCinemawrap, myMoviedate },
+  components: { myCinemawrap,mySnack },
   data() {
     return {
       cinematit: []
+      // dateList:[]
     };
   },
   methods: {
@@ -66,8 +82,9 @@ export default {
 
 <style lang="less" scoped>
 @import "~style/index.less";
-.movie-detail {
+.cinema-detail {
   //   height: 800px;
+  overflow-y: scroll;
   background: #fff;
   .fixed(0, 0, 0, 0);
   z-index: 11111;
